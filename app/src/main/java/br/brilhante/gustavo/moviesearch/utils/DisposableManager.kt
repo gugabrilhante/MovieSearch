@@ -20,7 +20,7 @@ object DisposableManager {
         compositeDisposable?.dispose()
     }
 
-    fun clear{
+    fun clear(){
         compositeDisposable?.clear()
     }
 

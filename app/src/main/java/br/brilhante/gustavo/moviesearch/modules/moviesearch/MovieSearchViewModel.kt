@@ -3,6 +3,7 @@ package br.brilhante.gustavo.moviesearch.modules.moviesearch
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.MutableLiveData
+import android.content.Context
 import br.brilhante.gustavo.feednews.api.ServerInteractor
 import br.brilhante.gustavo.moviesearch.models.Movie
 import br.brilhante.gustavo.moviesearch.models.UpcomingResponse
@@ -30,6 +31,14 @@ class MovieSearchViewModel(app: Application) : AndroidViewModel(app) {
                     movieLiveData.value = emptyList()
                 })
         )
+    }
+
+    fun goToMovieDetails(context: Context) {
+
+    }
+
+    fun getNextMoviePageList() {
+        //TODO keep last page request value, increment and return a new list
     }
 
 }
