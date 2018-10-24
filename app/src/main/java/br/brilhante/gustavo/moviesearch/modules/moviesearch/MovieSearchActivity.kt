@@ -6,7 +6,7 @@ import br.brilhante.gustavo.feednews.extensions.verticalLinearLayout
 import br.brilhante.gustavo.moviesearch.R
 import br.brilhante.gustavo.moviesearch.extensions.getViewModel
 import br.brilhante.gustavo.moviesearch.models.Movie
-import br.brilhante.gustavo.moviesearch.modules.BaseActivity
+import br.brilhante.gustavo.moviesearch.modules.base.BaseActivity
 import br.brilhante.gustavo.moviesearch.modules.moviesearch.adapter.MovieAdapter
 import br.brilhante.gustavo.moviesearch.modules.moviesearch.adapter.MovieListener
 import kotlinx.android.synthetic.main.activity_movie_search.*
@@ -44,6 +44,6 @@ class MovieSearchActivity : BaseActivity(), MovieListener {
     }
 
     override fun onMovieClick(movie: Movie) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        viewModel?.goToMovieDetails(this, movie)
     }
 }

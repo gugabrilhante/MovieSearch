@@ -21,6 +21,10 @@ class MovieViewHolder(val parent: ViewGroup, val listener: MovieListener) :
             .load(ServerInteractor.IMAGE_BASE_URL + movie.posterPath)
             .into(itemView.movieImageView)
 
+        itemView.setOnClickListener {
+            listener.onMovieClick(movie)
+        }
+
     }
 
 }

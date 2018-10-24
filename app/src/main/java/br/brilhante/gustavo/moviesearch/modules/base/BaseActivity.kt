@@ -1,4 +1,4 @@
-package br.brilhante.gustavo.moviesearch.modules
+package br.brilhante.gustavo.moviesearch.modules.base
 
 import android.support.v7.app.AppCompatActivity
 import br.brilhante.gustavo.moviesearch.utils.DisposableManager
