@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         tools:context=".modules.moviedetails.MovieDetailsActivity">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -36,6 +36,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

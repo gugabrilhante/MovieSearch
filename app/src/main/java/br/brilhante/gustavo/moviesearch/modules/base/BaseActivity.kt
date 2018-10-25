@@ -1,6 +1,6 @@
 package br.brilhante.gustavo.moviesearch.modules.base
 
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import br.brilhante.gustavo.moviesearch.utils.DisposableManager
 
 open class BaseActivity : AppCompatActivity() {

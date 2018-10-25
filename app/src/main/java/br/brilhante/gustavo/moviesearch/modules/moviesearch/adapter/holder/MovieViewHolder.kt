@@ -1,6 +1,6 @@
 package br.brilhante.gustavo.moviesearch.modules.moviesearch.adapter.holder
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import br.brilhante.gustavo.feednews.api.ServerInteractor
 import br.brilhante.gustavo.feednews.extensions.inflate

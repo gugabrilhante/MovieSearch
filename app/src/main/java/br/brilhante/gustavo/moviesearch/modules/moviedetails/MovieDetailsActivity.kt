@@ -1,6 +1,6 @@
 package br.brilhante.gustavo.moviesearch.modules.moviedetails
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.os.Bundle
 import br.brilhante.gustavo.feednews.api.ServerInteractor
 import br.brilhante.gustavo.moviesearch.R

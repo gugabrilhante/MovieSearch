@@ -1,10 +1,10 @@
 package br.brilhante.gustavo.moviesearch.modules.moviesearch
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
-import android.arch.lifecycle.MutableLiveData
 import android.content.Context
 import android.content.Intent
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import br.brilhante.gustavo.feednews.api.ServerInteractor
 import br.brilhante.gustavo.moviesearch.models.Movie
 import br.brilhante.gustavo.moviesearch.models.UpcomingResponse
@@ -17,10 +17,28 @@ class MovieSearchViewModel(app: Application) : AndroidViewModel(app) {
 
     var movieLiveData = MutableLiveData<List<Movie>>()
 
-    fun getMovieList() {
+    fun getUpcomingMovieList() {
         movieLiveData.value = emptyList()
         DisposableManager.add(
             ServerInteractor().getUpcomingMovies(1)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ response: UpcomingResponse ->
+
+                    response.results?.let {
+                        movieLiveData.postValue(it.filterNotNull())
+                    }
+
+                }, {
+                    movieLiveData.value = emptyList()
+                })
+        )
+    }
+
+    fun searchMovieList(name:String) {
+        movieLiveData.value = emptyList()
+        DisposableManager.add(
+            ServerInteractor().searchMovie(name, 1)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ response: UpcomingResponse ->

@@ -1,7 +1,8 @@
 package br.brilhante.gustavo.moviesearch.modules.moviesearch
 
-import android.arch.lifecycle.Observer
 import android.os.Bundle
+import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Observer
 import br.brilhante.gustavo.feednews.extensions.verticalLinearLayout
 import br.brilhante.gustavo.moviesearch.R
 import br.brilhante.gustavo.moviesearch.extensions.getViewModel
@@ -23,12 +24,25 @@ class MovieSearchActivity : BaseActivity(), MovieListener {
         viewModel = getViewModel()
         setupViews()
         registerObservables()
-        viewModel?.getMovieList()
+        viewModel?.getUpcomingMovieList()
     }
 
     private fun setupViews() {
         recyclerView.adapter = adapter
         recyclerView.verticalLinearLayout(this)
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+                viewModel?.searchMovieList(query)
+                return false
+            }
+
+        })
     }
 
     private fun registerObservables() {
