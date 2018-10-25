@@ -1,14 +1,17 @@
 package br.brilhante.gustavo.moviesearch.modules.moviedetails
 
 import android.app.Application
+import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import br.brilhante.gustavo.feednews.api.ServerInteractor
+import br.brilhante.gustavo.moviesearch.R
 import br.brilhante.gustavo.moviesearch.models.GenresItem
 import br.brilhante.gustavo.moviesearch.models.Movie
 import br.brilhante.gustavo.moviesearch.models.MovieInfo
 import br.brilhante.gustavo.moviesearch.utils.DisposableManager
+import br.brilhante.gustavo.moviesearch.utils.StringUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -36,7 +39,6 @@ class MovieDetailsViewModel(app: Application) : AndroidViewModel(app) {
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     movieInfoLiveData.postValue(it)
-                    processGenreText(it)
                 }, {
                     movieInfoLiveData.value = null
 
@@ -44,14 +46,14 @@ class MovieDetailsViewModel(app: Application) : AndroidViewModel(app) {
         )
     }
 
-    fun processGenreText(movieInfo: MovieInfo) {
+    fun processGenreText(context: Context, genres: List<GenresItem?>?) {
         var genreText = ""
-        movieInfo.genres?.let { list: List<GenresItem?> ->
-            for ((index, genre) in list.filterNotNull().withIndex()) {
-                genreText += genre.name
-                if (index < list.size - 2) genreText += ", "
-                else if (index < list.size - 1) genreText += " and "
-            }
+        genres?.let { list: List<GenresItem?> ->
+            var textList = list.map { it?.name }
+            genreText = StringUtils.getWordsToPhrase(
+                context.getString(R.string.and),
+                textList
+            )
         }
         genreTextLiveData.value = genreText
     }

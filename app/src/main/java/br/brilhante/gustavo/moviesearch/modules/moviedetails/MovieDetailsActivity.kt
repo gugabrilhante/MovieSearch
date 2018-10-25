@@ -42,6 +42,7 @@ class MovieDetailsActivity : BaseActivity() {
     private fun registeMovieInfoObservable() {
         viewModel?.movieInfoLiveData?.observe(this, Observer {
             overviewTextView.text = it.overview
+            viewModel?.processGenreText(this, it.genres)
         })
     }
 

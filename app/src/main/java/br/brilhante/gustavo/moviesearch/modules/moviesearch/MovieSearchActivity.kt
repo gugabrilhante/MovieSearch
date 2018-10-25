@@ -16,7 +16,7 @@ class MovieSearchActivity : BaseActivity(), MovieListener {
 
     private var viewModel: MovieSearchViewModel? = null
 
-    var adapter = MovieAdapter(this)
+    private var adapter = MovieAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +43,10 @@ class MovieSearchActivity : BaseActivity(), MovieListener {
             }
 
         })
+        swipeRefreshLayout.setOnRefreshListener {
+            viewModel?.updateMovieList(searchView.query?.toString())
+            swipeRefreshLayout.isRefreshing = true
+        }
     }
 
     private fun registerObservables() {
@@ -53,6 +57,7 @@ class MovieSearchActivity : BaseActivity(), MovieListener {
         viewModel?.movieLiveData?.observe(this, Observer { movieList: List<Movie>? ->
             movieList?.let {
                 adapter.movieList = it
+                swipeRefreshLayout.isRefreshing = false
             }
         })
     }

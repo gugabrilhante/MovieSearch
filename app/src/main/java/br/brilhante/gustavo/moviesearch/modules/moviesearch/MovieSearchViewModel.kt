@@ -9,6 +9,7 @@ import br.brilhante.gustavo.feednews.api.ServerInteractor
 import br.brilhante.gustavo.moviesearch.models.Movie
 import br.brilhante.gustavo.moviesearch.models.MovieList
 import br.brilhante.gustavo.moviesearch.modules.moviedetails.MovieDetailsActivity
+import br.brilhante.gustavo.moviesearch.modules.moviesearch.enums.MovieSearchType
 import br.brilhante.gustavo.moviesearch.utils.DisposableManager
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -17,8 +18,11 @@ class MovieSearchViewModel(app: Application) : AndroidViewModel(app) {
 
     var movieLiveData = MutableLiveData<List<Movie>>()
 
+    private var lastSearchType = MovieSearchType.UPCOMING
+
     fun getUpcomingMovieList() {
         movieLiveData.value = emptyList()
+        lastSearchType = MovieSearchType.UPCOMING
         DisposableManager.add(
             ServerInteractor().getUpcomingMovies(1)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -35,8 +39,9 @@ class MovieSearchViewModel(app: Application) : AndroidViewModel(app) {
         )
     }
 
-    fun searchMovieList(name:String) {
+    fun searchMovieList(name: String) {
         movieLiveData.value = emptyList()
+        lastSearchType = MovieSearchType.SEARCH
         DisposableManager.add(
             ServerInteractor().searchMovie(name, 1)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -51,6 +56,15 @@ class MovieSearchViewModel(app: Application) : AndroidViewModel(app) {
                     movieLiveData.value = emptyList()
                 })
         )
+    }
+
+    fun updateMovieList(name: String?) {
+        when (lastSearchType) {
+            MovieSearchType.SEARCH -> name?.let {
+                if (it.isBlank() || it.isEmpty()) getUpcomingMovieList() else searchMovieList(name)
+            }
+            MovieSearchType.UPCOMING -> getUpcomingMovieList()
+        }
     }
 
     fun goToMovieDetails(context: Context, movie: Movie) {
