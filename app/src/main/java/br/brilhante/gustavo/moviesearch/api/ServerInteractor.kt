@@ -1,6 +1,7 @@
 package br.brilhante.gustavo.feednews.api
 
-import br.brilhante.gustavo.moviesearch.models.UpcomingResponse
+import br.brilhante.gustavo.moviesearch.models.MovieInfo
+import br.brilhante.gustavo.moviesearch.models.MovieList
 import com.google.gson.Gson
 import io.reactivex.Single
 import okhttp3.OkHttpClient
@@ -36,11 +37,16 @@ class ServerInteractor {
             .create(ServerCalls::class.java)
     }
 
-    fun getUpcomingMovies(page: Int): Single<UpcomingResponse> {
+    fun getUpcomingMovies(page: Int): Single<MovieList> {
         return this.serverCalls.upcomingMovies(API_KEY, language, page)
     }
 
-    fun searchMovie(name: String, page: Int): Single<UpcomingResponse> {
+    fun searchMovie(name: String, page: Int): Single<MovieList> {
         return this.serverCalls.searchMovies(API_KEY, language, name, page)
     }
+
+    fun getMovieInfo(movieId: String): Single<MovieInfo> {
+        return this.serverCalls.movieInfo(movieId, API_KEY, language)
+    }
+
 }

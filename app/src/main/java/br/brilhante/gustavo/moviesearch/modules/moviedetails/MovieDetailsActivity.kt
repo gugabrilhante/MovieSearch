@@ -1,7 +1,7 @@
 package br.brilhante.gustavo.moviesearch.modules.moviedetails
 
-import androidx.lifecycle.Observer
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import br.brilhante.gustavo.feednews.api.ServerInteractor
 import br.brilhante.gustavo.moviesearch.R
 import br.brilhante.gustavo.moviesearch.extensions.getViewModel
@@ -24,6 +24,8 @@ class MovieDetailsActivity : BaseActivity() {
 
     private fun registerObservables() {
         registerMovieObservable()
+        registeMovieInfoObservable()
+        registerProccessGenreTextObservable()
     }
 
     private fun registerMovieObservable() {
@@ -36,4 +38,17 @@ class MovieDetailsActivity : BaseActivity() {
             }
         })
     }
+
+    private fun registeMovieInfoObservable() {
+        viewModel?.movieInfoLiveData?.observe(this, Observer {
+            overviewTextView.text = it.overview
+        })
+    }
+
+    fun registerProccessGenreTextObservable() {
+        viewModel?.genreTextLiveData?.observe(this, Observer {
+            genreTextView.text = it
+        })
+    }
+
 }

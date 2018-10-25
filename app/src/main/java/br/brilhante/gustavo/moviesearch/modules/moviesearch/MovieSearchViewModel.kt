@@ -7,7 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import br.brilhante.gustavo.feednews.api.ServerInteractor
 import br.brilhante.gustavo.moviesearch.models.Movie
-import br.brilhante.gustavo.moviesearch.models.UpcomingResponse
+import br.brilhante.gustavo.moviesearch.models.MovieList
 import br.brilhante.gustavo.moviesearch.modules.moviedetails.MovieDetailsActivity
 import br.brilhante.gustavo.moviesearch.utils.DisposableManager
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,7 +23,7 @@ class MovieSearchViewModel(app: Application) : AndroidViewModel(app) {
             ServerInteractor().getUpcomingMovies(1)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe({ response: UpcomingResponse ->
+                .subscribe({ response: MovieList ->
 
                     response.results?.let {
                         movieLiveData.postValue(it.filterNotNull())
@@ -41,7 +41,7 @@ class MovieSearchViewModel(app: Application) : AndroidViewModel(app) {
             ServerInteractor().searchMovie(name, 1)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe({ response: UpcomingResponse ->
+                .subscribe({ response: MovieList ->
 
                     response.results?.let {
                         movieLiveData.postValue(it.filterNotNull())

@@ -2,7 +2,7 @@ package br.brilhante.gustavo.moviesearch.models
 
 import com.google.gson.annotations.SerializedName
 
-data class UpcomingResponse(
+data class MovieList(
 
 	@field:SerializedName("dates")
 	val dates: Dates? = null,
