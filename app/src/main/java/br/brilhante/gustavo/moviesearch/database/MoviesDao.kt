@@ -11,7 +11,7 @@ import io.reactivex.Single
 interface MoviesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertMovieList(movieList:List<Movie>)
+    fun insertMovieList(movieList: List<Movie>)
 
     @Query("SELECT * FROM Movie")
     fun getMovieList(): Single<List<Movie>>

@@ -15,15 +15,16 @@ abstract class AppDatabase : RoomDatabase() {
         var INSTANCE: AppDatabase? = null
 
         fun getAppDataBase(context: Context): AppDatabase? {
-            if (INSTANCE == null){
-                synchronized(AppDatabase::class){
-                    INSTANCE = Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "database.db").build()
+            if (INSTANCE == null) {
+                synchronized(AppDatabase::class) {
+                    INSTANCE = Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "database.db")
+                        .build()
                 }
             }
             return INSTANCE
         }
 
-        fun destroyDataBase(){
+        fun destroyDataBase() {
             INSTANCE = null
         }
     }

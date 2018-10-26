@@ -6,7 +6,7 @@ import android.content.Intent
 import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import br.brilhante.gustavo.feednews.api.ServerInteractor
+import br.brilhante.gustavo.moviesearch.api.ServerInteractor
 import br.brilhante.gustavo.moviesearch.database.AppDatabase
 import br.brilhante.gustavo.moviesearch.database.MoviesDao
 import br.brilhante.gustavo.moviesearch.models.Movie
@@ -98,7 +98,7 @@ class MovieSearchViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun insertListOnDataBase(context: Context, movieList: List<Movie>) {
+    fun insertListOnDataBase(movieList: List<Movie>) {
         val movieDao = AppDatabase.INSTANCE?.MoviesDao()
         movieDao?.let {
             DisposableManager.add(

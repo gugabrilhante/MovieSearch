@@ -1,4 +1,4 @@
-package br.brilhante.gustavo.feednews.extensions
+package br.brilhante.gustavo.moviesearch.extensions
 
 import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager

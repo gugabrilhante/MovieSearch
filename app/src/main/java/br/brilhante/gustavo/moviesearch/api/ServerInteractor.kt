@@ -1,4 +1,4 @@
-package br.brilhante.gustavo.feednews.api
+package br.brilhante.gustavo.moviesearch.api
 
 import br.brilhante.gustavo.moviesearch.models.MovieInfo
 import br.brilhante.gustavo.moviesearch.models.MovieList
@@ -14,12 +14,10 @@ class ServerInteractor {
     private val serverCalls: ServerCalls
 
     companion object {
-        val IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500"
+        const val IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500"
+        private const val BASE_URL = "https://api.themoviedb.org/3/"
+        private const val API_KEY = "be811c3c0173e2f4105d0999ef1d02e3"
     }
-
-    private val BASE_URL = "https://api.themoviedb.org/3/"
-
-    private val API_KEY = "be811c3c0173e2f4105d0999ef1d02e3"
 
     // TODO get languague from the phone
     private val language = "en-US"

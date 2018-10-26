@@ -34,7 +34,8 @@
             android:layout_width="248dp"
             android:layout_height="wrap_content"
             android:transitionName="movieTitle"
-            android:lines="2"
+            android:textSize="18sp"
+            android:textStyle="bold"
             android:ellipsize="end"
             tools:text="title"/>
 
@@ -42,6 +43,7 @@
             android:id="@+id/dateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:layout_below="@+id/movieTitle"
             tools:text="05/06/2014"/>
     </RelativeLayout>

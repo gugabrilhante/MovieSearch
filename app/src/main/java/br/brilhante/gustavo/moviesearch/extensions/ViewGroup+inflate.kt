@@ -1,8 +1,8 @@
-package br.brilhante.gustavo.feednews.extensions
+package br.brilhante.gustavo.moviesearch.extensions
 
-import androidx.annotation.LayoutRes
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 
 
 fun ViewGroup.inflate(@LayoutRes res: Int, attachToRoot: Boolean = false) =

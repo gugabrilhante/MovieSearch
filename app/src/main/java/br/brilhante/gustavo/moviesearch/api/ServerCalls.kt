@@ -1,4 +1,4 @@
-package br.brilhante.gustavo.feednews.api
+package br.brilhante.gustavo.moviesearch.api
 
 import br.brilhante.gustavo.moviesearch.models.MovieInfo
 import br.brilhante.gustavo.moviesearch.models.MovieList

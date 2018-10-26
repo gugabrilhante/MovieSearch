@@ -2,8 +2,8 @@ package br.brilhante.gustavo.moviesearch.modules.moviesearch.adapter.holder
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import br.brilhante.gustavo.feednews.api.ServerInteractor
-import br.brilhante.gustavo.feednews.extensions.inflate
+import br.brilhante.gustavo.moviesearch.api.ServerInteractor
+import br.brilhante.gustavo.moviesearch.extensions.inflate
 import br.brilhante.gustavo.moviesearch.R
 import br.brilhante.gustavo.moviesearch.models.Movie
 import br.brilhante.gustavo.moviesearch.modules.moviesearch.adapter.MovieListener
@@ -15,16 +15,14 @@ class MovieViewHolder(val parent: ViewGroup, val listener: MovieListener) :
 
     fun bind(movie: Movie) {
         itemView.movieTitle.text = movie.title
-        itemView.dateTextView.text = movie.releaseDate
+        itemView.dateTextView.text = String.format(itemView.context.getString(R.string.release_date), movie.releaseDate)
 
         Glide.with(itemView.context)
             .load(ServerInteractor.IMAGE_BASE_URL + movie.posterPath)
             .into(itemView.movieImageView)
 
         itemView.setOnClickListener {
-
             val viewList = listOf(itemView.movieImageView, itemView.movieTitle)
-
             listener.onMovieClick(movie, viewList)
         }
 

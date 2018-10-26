@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import br.brilhante.gustavo.feednews.api.ServerInteractor
+import br.brilhante.gustavo.moviesearch.api.ServerInteractor
 import br.brilhante.gustavo.moviesearch.R
 import br.brilhante.gustavo.moviesearch.models.GenresItem
 import br.brilhante.gustavo.moviesearch.models.Movie
@@ -32,7 +32,7 @@ class MovieDetailsViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun getMovieInfo(movieId: String) {
+    private fun getMovieInfo(movieId: String) {
         DisposableManager.add(
             ServerInteractor().getMovieInfo(movieId)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -49,10 +49,9 @@ class MovieDetailsViewModel(app: Application) : AndroidViewModel(app) {
     fun processGenreText(context: Context, genres: List<GenresItem?>?) {
         var genreText = ""
         genres?.let { list: List<GenresItem?> ->
-            var textList = list.map { it?.name }
             genreText = StringUtils.getWordsToPhrase(
                 context.getString(R.string.and),
-                textList
+                list.map { it?.name }
             )
         }
         genreTextLiveData.value = genreText

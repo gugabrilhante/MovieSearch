@@ -2,7 +2,7 @@ package br.brilhante.gustavo.moviesearch.modules.moviedetails
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import br.brilhante.gustavo.feednews.api.ServerInteractor
+import br.brilhante.gustavo.moviesearch.api.ServerInteractor
 import br.brilhante.gustavo.moviesearch.R
 import br.brilhante.gustavo.moviesearch.extensions.animateAlpha
 import br.brilhante.gustavo.moviesearch.extensions.getViewModel
@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_movie_details.*
 
 class MovieDetailsActivity : BaseActivity() {
 
-    var viewModel: MovieDetailsViewModel? = null
+    private var viewModel: MovieDetailsViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +48,7 @@ class MovieDetailsActivity : BaseActivity() {
         })
     }
 
-    fun registerProccessGenreTextObservable() {
+    private fun registerProccessGenreTextObservable() {
         viewModel?.genreTextLiveData?.observe(this, Observer {
             genreTextView.text = it
             genreTextView.animateAlpha(1f, 150)

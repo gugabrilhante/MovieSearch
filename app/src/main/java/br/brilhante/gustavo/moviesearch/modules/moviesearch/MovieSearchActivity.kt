@@ -4,11 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
-import br.brilhante.gustavo.feednews.extensions.verticalLinearLayout
+import br.brilhante.gustavo.moviesearch.extensions.verticalLinearLayout
 import br.brilhante.gustavo.moviesearch.R
 import br.brilhante.gustavo.moviesearch.extensions.buildAlertDialog
 import br.brilhante.gustavo.moviesearch.extensions.getViewModel
 import br.brilhante.gustavo.moviesearch.extensions.makeSceneTransitionAnimation
+import br.brilhante.gustavo.moviesearch.extensions.setBackgroundAnimated
 import br.brilhante.gustavo.moviesearch.models.Movie
 import br.brilhante.gustavo.moviesearch.modules.base.BaseActivity
 import br.brilhante.gustavo.moviesearch.modules.moviesearch.adapter.MovieAdapter
@@ -35,7 +36,6 @@ class MovieSearchActivity : BaseActivity(), MovieListener {
         recyclerView.verticalLinearLayout(this)
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-
             override fun onQueryTextChange(newText: String): Boolean {
                 return false
             }
@@ -46,6 +46,13 @@ class MovieSearchActivity : BaseActivity(), MovieListener {
             }
 
         })
+        searchView.setOnSearchClickListener {
+            toolbar.setBackgroundAnimated(250, R.color.colorPrimary, R.color.white)
+        }
+        searchView.setOnCloseListener {
+            toolbar.setBackgroundAnimated(250, R.color.white, R.color.colorPrimary)
+            false
+        }
         swipeRefreshLayout.setOnRefreshListener {
             viewModel?.updateMovieList(searchView.query?.toString())
             swipeRefreshLayout.isRefreshing = true
@@ -86,12 +93,12 @@ class MovieSearchActivity : BaseActivity(), MovieListener {
     private fun registerShowErrorMessageObservable() {
         viewModel?.showErrorMessageLiveDatabase?.observe(this, Observer {
             buildAlertDialog(this, "Error", it).show()
-//            viewModel?.checkForSavedMovieList()
+            viewModel?.checkForSavedMovieList()
         })
     }
 
     private fun saveListOnDatabase(movies: List<Movie>) {
-        viewModel?.insertListOnDataBase(this, movies)
+        viewModel?.insertListOnDataBase(movies)
     }
 
     override fun onMovieClick(movie: Movie, viewList: List<View>) {
