@@ -15,6 +15,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="4dp"
             android:id="@+id/movieImageView"
+            android:transitionName="moviePoster"
             app:layout_constraintEnd_toStartOf="@+id/textRelativeLayout"/>
 
     <RelativeLayout
@@ -32,6 +33,7 @@
             android:id="@+id/movieTitle"
             android:layout_width="248dp"
             android:layout_height="wrap_content"
+            android:transitionName="movieTitle"
             android:lines="2"
             android:ellipsize="end"
             tools:text="title"/>

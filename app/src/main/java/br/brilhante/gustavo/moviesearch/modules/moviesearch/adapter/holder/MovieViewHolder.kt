@@ -1,7 +1,7 @@
 package br.brilhante.gustavo.moviesearch.modules.moviesearch.adapter.holder
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import br.brilhante.gustavo.feednews.api.ServerInteractor
 import br.brilhante.gustavo.feednews.extensions.inflate
 import br.brilhante.gustavo.moviesearch.R
@@ -22,7 +22,10 @@ class MovieViewHolder(val parent: ViewGroup, val listener: MovieListener) :
             .into(itemView.movieImageView)
 
         itemView.setOnClickListener {
-            listener.onMovieClick(movie)
+
+            val viewList = listOf(itemView.movieImageView, itemView.movieTitle)
+
+            listener.onMovieClick(movie, viewList)
         }
 
     }

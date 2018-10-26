@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import br.brilhante.gustavo.feednews.api.ServerInteractor
 import br.brilhante.gustavo.moviesearch.R
+import br.brilhante.gustavo.moviesearch.extensions.animateAlpha
 import br.brilhante.gustavo.moviesearch.extensions.getViewModel
 import br.brilhante.gustavo.moviesearch.models.Movie
 import br.brilhante.gustavo.moviesearch.modules.base.BaseActivity
@@ -42,6 +43,7 @@ class MovieDetailsActivity : BaseActivity() {
     private fun registeMovieInfoObservable() {
         viewModel?.movieInfoLiveData?.observe(this, Observer {
             overviewTextView.text = it.overview
+            overviewTextView.animateAlpha(1f, 150)
             viewModel?.processGenreText(this, it.genres)
         })
     }
@@ -49,6 +51,7 @@ class MovieDetailsActivity : BaseActivity() {
     fun registerProccessGenreTextObservable() {
         viewModel?.genreTextLiveData?.observe(this, Observer {
             genreTextView.text = it
+            genreTextView.animateAlpha(1f, 150)
         })
     }
 

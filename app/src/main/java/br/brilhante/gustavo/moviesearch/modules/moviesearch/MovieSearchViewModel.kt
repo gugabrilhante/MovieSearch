@@ -3,6 +3,7 @@ package br.brilhante.gustavo.moviesearch.modules.moviesearch
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import br.brilhante.gustavo.feednews.api.ServerInteractor
@@ -112,14 +113,10 @@ class MovieSearchViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun goToMovieDetails(context: Context, movie: Movie) {
+    fun goToMovieDetails(context: Context, activityOptionsCompat: ActivityOptionsCompat, movie: Movie) {
         val intent = Intent(context, MovieDetailsActivity::class.java)
         intent.putExtra("movie", movie)
-        context.startActivity(intent)
-    }
-
-    fun getNextMoviePageList() {
-        //TODO keep last page request value, increment and return a new list
+        context.startActivity(intent, activityOptionsCompat.toBundle())
     }
 
 }
