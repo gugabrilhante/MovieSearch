@@ -20,8 +20,7 @@ import io.reactivex.schedulers.Schedulers
 
 class MovieSearchViewModel(app: Application) : AndroidViewModel(app) {
 
-    var downloadMovieLiveData = MutableLiveData<List<Movie>>()
-    var databaseMovieLiveData = MutableLiveData<List<Movie>>()
+    var movieLiveData = MutableLiveData<Pair<List<Movie>, Boolean>>()
     var hasMovieListSavedLiveData = MutableLiveData<Boolean>()
     var isLoadingLiveData = MutableLiveData<Boolean>()
     var showErrorMessageLiveDatabase = MutableLiveData<String>()
@@ -37,7 +36,7 @@ class MovieSearchViewModel(app: Application) : AndroidViewModel(app) {
                     .subscribeOn(Schedulers.io())
                     .subscribe({
                         hasMovieListSavedLiveData.postValue(it.isNotEmpty())
-                        databaseMovieLiveData.postValue(it)
+                        movieLiveData.postValue(Pair(it, false))
                     }, {
                         hasMovieListSavedLiveData.value = false
                     })
@@ -48,7 +47,6 @@ class MovieSearchViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun getUpcomingMovieList() {
-        downloadMovieLiveData.value = emptyList()
         isLoadingLiveData.value = true
         lastSearchType = MovieSearchType.UPCOMING
         DisposableManager.add(
@@ -56,14 +54,13 @@ class MovieSearchViewModel(app: Application) : AndroidViewModel(app) {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ response: MovieList ->
-
                     response.results?.let {
-                        downloadMovieLiveData.postValue(it.filterNotNull())
+                        movieLiveData.postValue(Pair(it.filterNotNull(), true))
                         isLoadingLiveData.value = false
                     }
 
                 }, {
-                    downloadMovieLiveData.value = emptyList()
+                    movieLiveData.value = Pair(emptyList(), false)
                     isLoadingLiveData.value = false
                     showErrorMessageLiveDatabase.value = it.message
                 })
@@ -71,7 +68,6 @@ class MovieSearchViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun searchMovieList(name: String) {
-        downloadMovieLiveData.value = emptyList()
         isLoadingLiveData.value = true
         lastSearchType = MovieSearchType.SEARCH
         DisposableManager.add(
@@ -81,12 +77,12 @@ class MovieSearchViewModel(app: Application) : AndroidViewModel(app) {
                 .subscribe({ response: MovieList ->
 
                     response.results?.let {
-                        downloadMovieLiveData.postValue(it.filterNotNull())
+                        movieLiveData.postValue(Pair(it.filterNotNull(), true))
                         isLoadingLiveData.value = false
                     }
 
                 }, {
-                    downloadMovieLiveData.value = emptyList()
+                    movieLiveData.value = Pair(emptyList(), false)
                     isLoadingLiveData.value = false
                     showErrorMessageLiveDatabase.value = it.message
                 })
@@ -105,11 +101,11 @@ class MovieSearchViewModel(app: Application) : AndroidViewModel(app) {
     fun insertListOnDataBase(context: Context, movieList: List<Movie>) {
         val movieDao = AppDatabase.INSTANCE?.MoviesDao()
         movieDao?.let {
-            Completable.fromAction {
-                val list = movieDao.insertMovieList(movieList)
-            }
-                .subscribeOn(Schedulers.io())
-                .subscribe()
+            DisposableManager.add(
+                Completable.fromAction { movieDao.insertMovieList(movieList) }
+                    .subscribeOn(Schedulers.io())
+                    .subscribe()
+            )
         }
     }
 

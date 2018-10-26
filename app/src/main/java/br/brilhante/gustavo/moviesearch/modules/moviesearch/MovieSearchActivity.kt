@@ -53,28 +53,19 @@ class MovieSearchActivity : BaseActivity(), MovieListener {
     }
 
     private fun registerObservables() {
-        registerDownloadListMoviesObservable()
         registerListMoviesObservable()
         registerHasMovieListSavedObservable()
         registerIsLoadingObservable()
         registerShowErrorMessageObservable()
     }
 
-    private fun registerDownloadListMoviesObservable() {
-        viewModel?.downloadMovieLiveData?.observe(this, Observer { movieList: List<Movie>? ->
-            movieList?.let {
-                adapter.movieList = it
-                saveListOnDatabase(it)
-                swipeRefreshLayout.isRefreshing = false
-            }
-        })
-    }
-
     private fun registerListMoviesObservable() {
-        viewModel?.databaseMovieLiveData?.observe(this, Observer { movieList: List<Movie>? ->
-            movieList?.let {
-                adapter.movieList = it
+        viewModel?.movieLiveData?.observe(this, Observer { pair: Pair<List<Movie>, Boolean> ->
+            adapter.movieList = pair.first
+            if (pair.second) {
+                saveListOnDatabase(pair.first)
             }
+
         })
     }
 
@@ -95,7 +86,7 @@ class MovieSearchActivity : BaseActivity(), MovieListener {
     private fun registerShowErrorMessageObservable() {
         viewModel?.showErrorMessageLiveDatabase?.observe(this, Observer {
             buildAlertDialog(this, "Error", it).show()
-            viewModel?.checkForSavedMovieList()
+//            viewModel?.checkForSavedMovieList()
         })
     }
 
