@@ -5,6 +5,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import br.brilhante.gustavo.feednews.extensions.verticalLinearLayout
 import br.brilhante.gustavo.moviesearch.R
+import br.brilhante.gustavo.moviesearch.extensions.buildAlertDialog
 import br.brilhante.gustavo.moviesearch.extensions.getViewModel
 import br.brilhante.gustavo.moviesearch.models.Movie
 import br.brilhante.gustavo.moviesearch.modules.base.BaseActivity
@@ -24,7 +25,7 @@ class MovieSearchActivity : BaseActivity(), MovieListener {
         viewModel = getViewModel()
         setupViews()
         registerObservables()
-        viewModel?.getUpcomingMovieList()
+        viewModel?.checkForSavedMovieList()
     }
 
     private fun setupViews() {
@@ -50,16 +51,53 @@ class MovieSearchActivity : BaseActivity(), MovieListener {
     }
 
     private fun registerObservables() {
-        registerListMoviesObservables()
+        registerDownloadListMoviesObservable()
+        registerListMoviesObservable()
+        registerHasMovieListSavedObservable()
+        registerIsLoadingObservable()
+        registerShowErrorMessageObservable()
     }
 
-    private fun registerListMoviesObservables() {
-        viewModel?.movieLiveData?.observe(this, Observer { movieList: List<Movie>? ->
+    private fun registerDownloadListMoviesObservable() {
+        viewModel?.downloadMovieLiveData?.observe(this, Observer { movieList: List<Movie>? ->
             movieList?.let {
                 adapter.movieList = it
+                saveListOnDatabase(it)
                 swipeRefreshLayout.isRefreshing = false
             }
         })
+    }
+
+    private fun registerListMoviesObservable() {
+        viewModel?.databaseMovieLiveData?.observe(this, Observer { movieList: List<Movie>? ->
+            movieList?.let {
+                adapter.movieList = it
+            }
+        })
+    }
+
+    private fun registerHasMovieListSavedObservable(){
+        viewModel?.hasMovieListSavedLiveData?.observe(this, Observer {
+            if(!it){
+                viewModel?.getUpcomingMovieList()
+            }
+        })
+    }
+
+    private fun registerIsLoadingObservable(){
+        viewModel?.isLoadingLiveData?.observe(this, Observer {
+            swipeRefreshLayout.isRefreshing = it
+        })
+    }
+
+    private fun registerShowErrorMessageObservable(){
+        viewModel?.showErrorMessageLiveDatabase?.observe(this, Observer {
+            buildAlertDialog(this, "Error", it)
+        })
+    }
+
+    private fun saveListOnDatabase(movies:List<Movie>){
+        viewModel?.insertListOnDataBase(this, movies)
     }
 
     override fun onMovieClick(movie: Movie) {
