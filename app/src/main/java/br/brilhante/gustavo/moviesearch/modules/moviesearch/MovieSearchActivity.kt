@@ -26,7 +26,7 @@ class MovieSearchActivity : BaseActivity(), MovieListener {
         registerObservables()
         viewModel?.checkForSavedMovieList()
         savedInstanceState?.let { savedInstance: Bundle ->
-            recyclerView.layoutManager?.onRestoreInstanceState(savedInstanceState.getParcelable("LayoutManagerInstance"))
+            recyclerView.layoutManager?.onRestoreInstanceState(savedInstance.getParcelable("LayoutManagerInstance"))
         }
     }
 
