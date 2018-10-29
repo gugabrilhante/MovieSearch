@@ -4,12 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
-import br.brilhante.gustavo.moviesearch.extensions.verticalLinearLayout
 import br.brilhante.gustavo.moviesearch.R
-import br.brilhante.gustavo.moviesearch.extensions.buildAlertDialog
-import br.brilhante.gustavo.moviesearch.extensions.getViewModel
-import br.brilhante.gustavo.moviesearch.extensions.makeSceneTransitionAnimation
-import br.brilhante.gustavo.moviesearch.extensions.setBackgroundAnimated
+import br.brilhante.gustavo.moviesearch.extensions.*
 import br.brilhante.gustavo.moviesearch.models.Movie
 import br.brilhante.gustavo.moviesearch.modules.base.BaseActivity
 import br.brilhante.gustavo.moviesearch.modules.moviesearch.adapter.MovieAdapter
@@ -29,6 +25,19 @@ class MovieSearchActivity : BaseActivity(), MovieListener {
         setupViews()
         registerObservables()
         viewModel?.checkForSavedMovieList()
+        savedInstanceState?.let { savedInstance: Bundle ->
+            recyclerView.layoutManager?.onRestoreInstanceState(savedInstanceState.getParcelable("LayoutManagerInstance"))
+        }
+    }
+
+    public override fun onSaveInstanceState(savedInstanceState: Bundle) {
+        recyclerView.layoutManager?.let {
+            savedInstanceState.putParcelable(
+                "LayoutManagerInstance",
+                it.onSaveInstanceState()
+            )
+        }
+        super.onSaveInstanceState(savedInstanceState)
     }
 
     private fun setupViews() {
